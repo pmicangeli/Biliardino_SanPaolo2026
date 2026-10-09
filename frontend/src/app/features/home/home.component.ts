@@ -34,7 +34,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
       background-image: url('../../../assets/immagini/home/sfondo.jpg');
       background-size: cover;
-      background-position: center center;
+      background-position: 25% center;
       background-repeat: no-repeat;
       background-attachment: scroll;
       position: relative;
@@ -109,6 +109,10 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
       transform: translateY(-2px);
     }
     @media (max-width: 600px) {
+      .home-container {
+        background-image: url('../../../assets/immagini/home/sfondo_verticale.jpeg');
+        background-position: center center;
+      }
       .cta-group {
         flex-direction: column;
         align-items: center;
