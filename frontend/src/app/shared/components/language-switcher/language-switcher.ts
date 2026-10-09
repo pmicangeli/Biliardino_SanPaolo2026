@@ -17,15 +17,15 @@ import { TranslationService } from '../../../core/services/translation.service';
       <div class="dropdown-menu" *ngIf="isOpen">
         <div class="lang-option" (click)="selectLanguage('it')">
           <img src="https://flagcdn.com/w20/it.png" class="flag-icon" alt="Italy">
-          <span>Italiano</span>
+          <span class="lang-label">Italiano</span>
         </div>
         <div class="lang-option" (click)="selectLanguage('en')">
           <img src="https://flagcdn.com/w20/us.png" class="flag-icon" alt="USA">
-          <span>English</span>
+          <span class="lang-label">English</span>
         </div>
         <div class="lang-option" (click)="selectLanguage('es')">
           <img src="https://flagcdn.com/w20/es.png" class="flag-icon" alt="Spain">
-          <span>Español</span>
+          <span class="lang-label">Español</span>
         </div>
       </div>
     </div>
@@ -100,6 +100,23 @@ import { TranslationService } from '../../../core/services/translation.service';
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-10px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .lang-text, .lang-label {
+        display: none;
+      }
+      .lang-button {
+        padding: 6px 8px;
+        gap: 5px;
+      }
+      .dropdown-menu {
+        min-width: 50px;
+      }
+      .lang-option {
+        justify-content: center;
+        padding: 10px;
+      }
     }
   `]
 })
