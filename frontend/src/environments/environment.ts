@@ -1,5 +1,5 @@
 export const environment = {
-  production: false,
-  apiUrl: 'http://127.0.0.1:8000'
+  production: true,
+  apiUrl: 'https://biliardino-sanpaolo2026.onrender.com'
 };
 
