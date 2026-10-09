@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: biliardino-db
+    restart: always
+    environment:
+      POSTGRES_USER: user_biliardino
+      POSTGRES_PASSWORD: password_biliardino
+      POSTGRES_DB: biliardino_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./backend
+    container_name: biliardino-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://user_biliardino:password_biliardino@db:5432/biliardino_db
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
