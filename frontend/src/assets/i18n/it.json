@@ -1,0 +1,21 @@
+{
+  "NAV": {
+    "squadre": "Squadre",
+    "giocatori": "Giocatori",
+    "partite": "Partite",
+    "risultati": "Risultati"
+  },
+  "HOME": {
+    "title": "Benvenuti al Torneo di Biliardino San Paolo 2026",
+    "subtitle": "Tutta la gestione del torneo in un unico posto: iscrizioni, calendari e risultati.",
+    "btn_squadre": "Visualizza Squadre",
+    "btn_partite": "Calendario Partite"
+  },
+  "SQUADRE": {
+    "title": "Elenco Squadre",
+    "loading": "Caricamento in corso...",
+    "error": "Si è verificato un errore nel caricamento delle squadre.",
+    "active": "Attiva",
+    "inactive": "Non attiva"
+  }
+}

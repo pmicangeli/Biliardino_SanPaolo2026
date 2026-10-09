@@ -1,0 +1,34 @@
+<div class="container">
+  <h1 class="page-title">Elenco Squadre</h1>
+
+  <div *ngIf="loading" class="loading">Caricamento in corso...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="!loading && !error" class="squadre-grid">
+    <div *ngFor="let squadra of squadre" class="squadra-card">
+      <div class="squadra-image-container">
+        <img
+          *ngIf="squadra.immagine"
+          [src]="squadra.immagine"
+          [alt]="squadra.nome"
+          class="squadra-img"
+        >
+        <div *ngIf="!squadra.immagine" class="image-placeholder">
+          {{ squadra.nome.charAt(0) }}
+        </div>
+      </div>
+
+      <div class="squadra-info">
+        <h3>{{ squadra.nome }}</h3>
+        <p [class.in-corsa]="squadra.in_corsa">
+          {{ squadra.in_corsa ? 'Attiva' : 'Non attiva' }}
+        </p>
+      </div>
+
+      <div class="squadra-colors">
+        <span class="color-box" [style.background-color]="squadra.colore_1" [title]="'Colore 1'"></span>
+        <span class="color-box" [style.background-color]="squadra.colore_2" [title]="'Colore 2'"></span>
+      </div>
+    </div>
+  </div>
+</div>

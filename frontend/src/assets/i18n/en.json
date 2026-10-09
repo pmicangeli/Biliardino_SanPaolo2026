@@ -1,0 +1,21 @@
+{
+  "NAV": {
+    "squadre": "Teams",
+    "giocatori": "Players",
+    "partite": "Matches",
+    "risultati": "Results"
+  },
+  "HOME": {
+    "title": "Welcome to the San Paolo Foosball Tournament 2026",
+    "subtitle": "All tournament management in one place: registrations, schedules, and results.",
+    "btn_squadre": "View Teams",
+    "btn_partite": "Match Schedule"
+  },
+  "SQUADRE": {
+    "title": "Teams List",
+    "loading": "Loading...",
+    "error": "An error occurred while loading the teams.",
+    "active": "Active",
+    "inactive": "Inactive"
+  }
+}

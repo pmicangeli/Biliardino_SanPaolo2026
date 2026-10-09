@@ -1,0 +1,21 @@
+{
+  "NAV": {
+    "squadre": "Equipos",
+    "giocatori": "Jugadores",
+    "partite": "Partidos",
+    "risultati": "Resultados"
+  },
+  "HOME": {
+    "title": "Bienvenidos al Torneo de Futbolín San Paolo 2026",
+    "subtitle": "Toda la gestión del torneo en un solo lugar: inscripciones, calendarios y resultados.",
+    "btn_squadre": "Ver Equipos",
+    "btn_partite": "Calendario de Partidos"
+  },
+  "SQUADRE": {
+    "title": "Lista de Equipos",
+    "loading": "Cargando...",
+    "error": "Ocurrió un error al cargar los equipos.",
+    "active": "Activo",
+    "inactive": "Inactivo"
+  }
+}
