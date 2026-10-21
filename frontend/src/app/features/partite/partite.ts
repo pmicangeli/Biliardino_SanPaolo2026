@@ -8,7 +8,7 @@ import { Partita } from '../../core/models/partita.model';
   providedIn: 'root',
 })
 export class PartiteService {
-  private apiUrl = `${environment.apiUrl}/partite`;
+  private apiUrl = `${environment.apiUrl}/partite/`;
 
   constructor(private http: HttpClient) {}
 

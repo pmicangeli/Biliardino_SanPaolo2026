@@ -8,7 +8,7 @@ import { Risultato } from '../../core/models/risultato.model';
   providedIn: 'root',
 })
 export class RisultatiService {
-  private apiUrl = `${environment.apiUrl}/risultati`;
+  private apiUrl = `${environment.apiUrl}/risultati/`;
 
   constructor(private http: HttpClient) {}
 

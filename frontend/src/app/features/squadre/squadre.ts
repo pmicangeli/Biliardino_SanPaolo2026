@@ -8,7 +8,7 @@ import { Squadra } from '../../core/models/squadra.model';
   providedIn: 'root',
 })
 export class SquadreService {
-  private apiUrl = `${environment.apiUrl}/squadre`;
+  private apiUrl = `${environment.apiUrl}/squadre/`;
 
   constructor(private http: HttpClient) {}
 

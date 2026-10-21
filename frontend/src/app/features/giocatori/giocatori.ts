@@ -8,7 +8,7 @@ import { Giocatore } from '../../core/models/giocatore.model';
   providedIn: 'root',
 })
 export class GiocatoriService {
-  private apiUrl = `${environment.apiUrl}/giocatori`;
+  private apiUrl = `${environment.apiUrl}/giocatori/`;
 
   constructor(private http: HttpClient) {}
 
