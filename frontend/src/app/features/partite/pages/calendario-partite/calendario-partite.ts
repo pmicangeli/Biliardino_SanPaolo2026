@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Squadra } from '../../../../core/models/squadra.model';
 import { TranslationService } from '../../../../core/services/translation.service';
 import { TournamentService, PartitaCompleta } from '../../../../core/services/tournament.service';
+import { BackgroundService } from '../../../../core/services/background.service';
 
 @Component({
   selector: 'app-calendario-partite',
@@ -23,10 +24,12 @@ export class CalendarioPartite implements OnInit {
   constructor(
     private translationService: TranslationService,
     private tournamentService: TournamentService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private backgroundService: BackgroundService
   ) {}
 
   ngOnInit(): void {
+    this.backgroundService.setActivePage('partite');
     this.loadData();
   }
 

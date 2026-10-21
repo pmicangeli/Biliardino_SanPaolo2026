@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SquadreService } from '../../squadre';
 import { Squadra } from '../../../../core/models/squadra.model';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
+import { BackgroundService } from '../../../../core/services/background.service';
 
 @Component({
   selector: 'app-squadre-list',
@@ -18,10 +19,12 @@ export class SquadreList implements OnInit {
 
   constructor(
     private squadreService: SquadreService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private backgroundService: BackgroundService
   ) {}
 
   ngOnInit(): void {
+    this.backgroundService.setActivePage('squadre');
     this.loadSquadre();
   }
 

@@ -11,6 +11,51 @@ router = APIRouter(
     tags=["Partite"]
 )
 
+@router.get("/classifica", response_model=List[dict])
+def read_classifica(db: Session = Depends(get_db)):
+    from ..models.models import Squadra as SquadraModel
+
+    squadre = db.query(SquadraModel).all()
+    classifica = []
+
+    for s in squadre:
+        # Trova tutti i risultati di questa squadra
+        risultati = db.query(RisultatoModel).filter(RisultatoModel.id_squadra == s.id).all()
+
+        partite_giocate = len(risultati)
+        vittorie = sum(1 for r in risultati if r.vittoria)
+        sconfitte = partite_giocate - vittorie
+        gol_fatti = sum(r.gol for r in risultati)
+
+        # Per i gol subiti, dobbiamo sommare i gol dell'avversario per ogni partita giocata
+        gol_subiti = 0
+        for r in risultati:
+            # Trova l'avversario nella stessa partita
+            avversario = db.query(RisultatoModel).filter(
+                RisultatoModel.id_partita == r.id_partita,
+                RisultatoModel.id_squadra != s.id
+            ).first()
+            if avversario:
+                gol_subiti += avversario.gol
+
+        classifica.append({
+            "id": s.id,
+            "nome": s.nome,
+            "immagine": s.immagine,
+            "partiteGiocate": partite_giocate,
+            "vittorie": vittorie,
+            "sconfitte": sconfitte,
+            "golFatti": gol_fatti,
+            "golSubiti": gol_subiti,
+            "differenza": gol_fatti - gol_subiti,
+            "punti": vittorie * 3
+        })
+
+    # Ordina per punti (decrescente), poi per differenza gol (decrescente)
+    classifica.sort(key=lambda x: (x['punti'], x['differenza']), reverse=True)
+
+    return classifica
+
 @router.get("/", response_model=List[Partita])
 def read_partite(skip: int = 0, limit: int = 100, data: Optional[date] = None, db: Session = Depends(get_db)):
     query = db.query(PartitaModel)

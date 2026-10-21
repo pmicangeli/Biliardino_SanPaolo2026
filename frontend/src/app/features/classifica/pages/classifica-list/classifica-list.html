@@ -1,1 +1,47 @@
-<p>risultati-list works!</p>
+<div class="page-background">
+  <div class="overlay"></div>
+  <div class="container">
+    <h1 class="page-title">{{ 'SQUADRE.title' | translate }}</h1>
+
+    <div *ngIf="loading" class="loading">Caricamento in corso...</div>
+    <div *ngIf="error" class="error">{{ error }}</div>
+
+    <div *ngIf="!loading && !error && squadre.length === 0" class="no-data">
+      {{ 'PARTITE.no_matches' | translate }}
+    </div>
+
+    <div *ngIf="!loading && !error && squadre.length > 0" class="classifica-table-container">
+      <table class="classifica-table">
+        <thead>
+          <tr>
+            <th>{{ 'NAV.squadre' | translate }}</th>
+            <th class="pts">Pts</th>
+            <th>P</th>
+            <th>V</th>
+            <th>N</th>
+            <th>P</th>
+            <th>GF</th>
+            <th>GS</th>
+            <th>DR</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let s of squadre">
+            <td class="team-cell">
+              <img [src]="s.immagine || 'assets/imgs/default-team.png'" class="team-logo">
+              <span class="team-name">{{ s.nome }}</span>
+            </td>
+            <td class="pts">{{ s.punti || 0 }}</td>
+            <td>{{ s.partiteGiocate || 0 }}</td>
+            <td>{{ s.vittorie || 0 }}</td>
+            <td>{{ s.pareggi || 0 }}</td>
+            <td>{{ s.sconfitte || 0 }}</td>
+            <td>{{ s.golFatti || 0 }}</td>
+            <td>{{ s.golSubiti || 0 }}</td>
+            <td>{{ (s.golFatti || 0) - (s.golSubiti || 0) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

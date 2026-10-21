@@ -8,30 +8,35 @@ import { Risultato } from '../../core/models/risultato.model';
   providedIn: 'root',
 })
 export class ClassificaService {
-  private apiUrl = `${environment.apiUrl}/risultati/`;
+  private apiPartite = `${environment.apiUrl}/partite`;
+  private apiRisultati = `${environment.apiUrl}/risultati`;
 
   constructor(private http: HttpClient) {}
 
+  getClassifica(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiPartite}/classifica`);
+  }
+
   getRisultati(): Observable<Risultato[]> {
-    return this.http.get<Risultato[]>(this.apiUrl);
+    return this.http.get<Risultato[]>(this.apiRisultati);
   }
 
   getRisultato(idPartita: number, idSquadra: number): Observable<Risultato> {
-    return this.http.get<Risultato>(`${this.apiUrl}`, {
+    return this.http.get<Risultato>(this.apiRisultati, {
       params: { id_partita: idPartita.toString(), id_squadra: idSquadra.toString() }
     });
   }
 
   createRisultato(risultato: Partial<Risultato>): Observable<Risultato> {
-    return this.http.post<Risultato>(this.apiUrl, risultato);
+    return this.http.post<Risultato>(this.apiRisultati, risultato);
   }
 
   updateRisultato(risultato: Partial<Risultato>): Observable<Risultato> {
-    return this.http.put<Risultato>(this.apiUrl, risultato);
+    return this.http.put<Risultato>(this.apiRisultati, risultato);
   }
 
   deleteRisultato(idPartita: number, idSquadra: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}`, {
+    return this.http.delete<void>(this.apiRisultati, {
       params: { id_partita: idPartita.toString(), id_squadra: idSquadra.toString() }
     });
   }
