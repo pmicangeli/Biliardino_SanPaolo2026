@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+﻿from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import date
@@ -19,8 +19,11 @@ def read_classifica(db: Session = Depends(get_db)):
     classifica = []
 
     for s in squadre:
-        # Trova tutti i risultati di questa squadra
-        risultati = db.query(RisultatoModel).filter(RisultatoModel.id_squadra == s.id).all()
+        # Trova tutti i risultati di questa squadra, solo per le partite effettivamente giocate
+        risultati = db.query(RisultatoModel).filter(
+            RisultatoModel.id_squadra == s.id,
+            RisultatoModel.giocata == True
+        ).all()
 
         partite_giocate = len(risultati)
         vittorie = sum(1 for r in risultati if r.vittoria)
@@ -189,3 +192,4 @@ def delete_partita(partita_id: int, db: Session = Depends(get_db)):
     db.delete(db_partita)
     db.commit()
     return None
+
