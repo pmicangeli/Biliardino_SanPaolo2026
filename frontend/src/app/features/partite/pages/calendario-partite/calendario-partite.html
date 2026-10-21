@@ -8,7 +8,7 @@
         <option [ngValue]="null">Tutte</option>
         <option *ngFor="let s of squadre" [ngValue]="s.id">{{ s.nome }}</option>
       </select>
-    </div>
+    </div> 
     <div class="filter-group">
       <label>Ospite</label>
       <select [(ngModel)]="filterOspiteId">
