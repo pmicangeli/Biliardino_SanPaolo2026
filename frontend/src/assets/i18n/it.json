@@ -17,5 +17,9 @@
     "error": "Si è verificato un errore nel caricamento delle squadre.",
     "active": "Attiva",
     "inactive": "Non attiva"
+  },
+  "FILTERS": {
+    "squadra": "Filtra per squadra",
+    "tutte": "Tutte le squadre"
   }
 }

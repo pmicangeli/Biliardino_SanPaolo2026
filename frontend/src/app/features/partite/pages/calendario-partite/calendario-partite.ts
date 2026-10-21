@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Squadra } from '../../../../core/models/squadra.model';
@@ -18,12 +18,12 @@ export class CalendarioPartite implements OnInit {
   partite: PartitaCompleta[] = [];
   squadre: Squadra[] = [];
 
-  filterCasaId: number | null = null;
-  filterOspiteId: number | null = null;
+  filterSquadraId: number | null = null;
 
   constructor(
     private translationService: TranslationService,
-    private tournamentService: TournamentService
+    private tournamentService: TournamentService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -44,9 +44,13 @@ export class CalendarioPartite implements OnInit {
     this.tournamentService.getCalendario().subscribe({
       next: (partite) => {
         this.partite = partite;
-        // Ordinamento per data e orario
-        this.partite.sort((a, b) => (a.data + a.orario).localeCompare(b.data + b.orario));
+        // Ordinamento più robusto per data e orario
+        this.partite.sort((a, b) => {
+          if (a.data !== b.data) return a.data.localeCompare(b.data);
+          return a.orario.localeCompare(b.orario);
+        });
 
+        this.cdr.detectChanges();
         setTimeout(() => this.scrollToFirstFutureMatch(), 100);
       },
       error: (err) => console.error('Errore caricamento partite', err)
@@ -57,19 +61,28 @@ export class CalendarioPartite implements OnInit {
     const now = new Date();
     const todayStr = now.toISOString().split('T')[0];
 
+    // 1. Cerca la prima partita futura non giocata
     const firstFuture = this.partite.find(p => p.data >= todayStr && !p.giocata);
+
     if (firstFuture) {
       const element = document.getElementById(`match-${firstFuture.id}`);
+      element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } else if (this.partite.length > 0) {
+      // 2. Se non ci sono partite future, scrolla verso l'ultima partita della lista
+      const lastMatch = this.partite[this.partite.length - 1];
+      const element = document.getElementById(`match-${lastMatch.id}`);
       element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
 
   get filteredPartite() {
-    return this.partite.filter(p => {
-      const matchCasa = this.filterCasaId === null || p.squadraCasa.id === this.filterCasaId;
-      const matchOspite = this.filterOspiteId === null || p.squadraOspite.id === this.filterOspiteId;
-      return matchCasa && matchOspite;
-    });
+    if (this.filterSquadraId === null) {
+      return this.partite;
+    }
+    return this.partite.filter(p =>
+      p.squadraCasa.id === this.filterSquadraId ||
+      p.squadraOspite.id === this.filterSquadraId
+    );
   }
 
   translate(key: string): string {

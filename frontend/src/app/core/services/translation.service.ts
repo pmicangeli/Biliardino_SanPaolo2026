@@ -7,8 +7,8 @@ const TRANSLATIONS: any = {
   it: {
     NAV: {
       squadre: 'Squadre',
-      giocatori: 'Giocatori',
-      partite: 'Partite',
+      partite: 'Calendario',
+      classifica: 'Classifica',
       risultati: 'Risultati'
     },
     HOME: {
@@ -23,6 +23,10 @@ const TRANSLATIONS: any = {
       error: 'Si è verificato un errore nel caricamento delle squadre.',
       active: 'Attiva',
       inactive: 'Non attiva'
+    },
+    FILTERS: {
+      squadra: 'Filtra per squadra',
+      tutte: 'Tutte le squadre'
     }
   },
   en: {
@@ -44,6 +48,10 @@ const TRANSLATIONS: any = {
       error: 'An error occurred while loading the teams.',
       active: 'Active',
       inactive: 'Inactive'
+    },
+    FILTERS: {
+      squadra: 'Filter by team',
+      tutte: 'All teams'
     }
   },
   es: {
@@ -65,6 +73,10 @@ const TRANSLATIONS: any = {
       error: 'Ocurrió un error al cargar los equipos.',
       active: 'Activo',
       inactive: 'Inactivo'
+    },
+    FILTERS: {
+      squadra: 'Filtrar por equipo',
+      tutte: 'Todos los equipos'
     }
   }
 };

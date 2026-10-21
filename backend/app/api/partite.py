@@ -62,25 +62,50 @@ def read_partita(partita_id: int, db: Session = Depends(get_db)):
     }
 
 @router.post("/", response_model=Partita, status_code=status.HTTP_201_CREATED)
-def create_partita(partita: PartitaCreate, db: Session = Depends(get_db)):
-    db_partita = PartitaModel(**partita.model_dump())
-    db.add(db_partita)
+def create_partita(partita_in: PartitaCreate, db: Session = Depends(get_db)):
+    # 1. Crea la partita
+    nuova_partita = PartitaModel(
+        data=partita_in.data,
+        orario=partita_in.orario
+    )
+    db.add(nuova_partita)
     db.commit()
-    db.refresh(db_partita)
+    db.refresh(nuova_partita)
 
-    risultati = db.query(RisultatoModel).filter(RisultatoModel.id_partita == db_partita.id).all()
-    res_casa = next((r for r in risultati if r.casa), None)
-    res_ospite = next((r for r in risultati if not r.casa), None)
+    # 2. Crea i due record di Risultato (Casa e Ospite)
+    # Squadra di casa
+    res_casa = RisultatoModel(
+        id_partita=nuova_partita.id,
+        id_squadra=partita_in.id_squadra_casa,
+        casa=True,
+        gol=0,
+        giocata=False,
+        vittoria=False
+    )
+    # Squadra ospite
+    res_ospite = RisultatoModel(
+        id_partita=nuova_partita.id,
+        id_squadra=partita_in.id_squadra_ospite,
+        casa=False,
+        gol=0,
+        giocata=False,
+        vittoria=False
+    )
 
+    db.add(res_casa)
+    db.add(res_ospite)
+    db.commit()
+
+    # Restituisce l'oggetto completo come richiesto dal frontend
     return {
-        "id": db_partita.id,
-        "data": db_partita.data,
-        "orario": db_partita.orario,
-        "squadraCasa": res_casa.squadra if res_casa else None,
-        "squadraOspite": res_ospite.squadra if res_ospite else None,
-        "risultatoCasa": res_casa.gol if res_casa else None,
-        "risultatoOspite": res_ospite.gol if res_ospite else None,
-        "giocata": res_casa.giocata if res_casa else False
+        "id": nuova_partita.id,
+        "data": nuova_partita.data,
+        "orario": nuova_partita.orario,
+        "squadraCasa": res_casa.squadra,
+        "squadraOspite": res_ospite.squadra,
+        "risultatoCasa": res_casa.gol,
+        "risultatoOspite": res_ospite.gol,
+        "giocata": res_casa.giocata
     }
 
 @router.put("/{partita_id}", response_model=Partita)

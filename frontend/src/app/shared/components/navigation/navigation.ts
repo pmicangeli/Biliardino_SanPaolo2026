@@ -14,15 +14,17 @@ import { LanguageSwitcherComponent } from '../language-switcher/language-switche
       </div>
       <ul class="nav-links">
         <li><a routerLink="/squadre" routerLinkActive="active">{{ 'NAV.squadre' | translate }}</a></li>
-        <li><a routerLink="/giocatori" routerLinkActive="active">{{ 'NAV.giocatori' | translate }}</a></li>
         <li><a routerLink="/partite" routerLinkActive="active">{{ 'NAV.partite' | translate }}</a></li>
-        <li><a routerLink="/risultati" routerLinkActive="active">{{ 'NAV.risultati' | translate }}</a></li>
+        <li><a routerLink="/classifica" routerLinkActive="active">{{ 'NAV.classifica' | translate }}</a></li>
         <li><app-language-switcher></app-language-switcher></li>
       </ul>
     </nav>
   `,
   styles: [`
     .nav-container {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
       display: flex;
       justify-content: space-between;
       align-items: center;

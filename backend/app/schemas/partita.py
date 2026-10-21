@@ -8,7 +8,8 @@ class PartitaBase(BaseModel):
     orario: Optional[datetime] = None
 
 class PartitaCreate(PartitaBase):
-    pass
+    id_squadra_casa: int
+    id_squadra_ospite: int
 
 class Partita(PartitaBase):
     id: int
