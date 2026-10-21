@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from typing import List, Optional
 from datetime import date
 from ..core.database import get_db
-from ..models.models import Partita as PartitaModel
+from ..models.models import Partita as PartitaModel, Risultato as RisultatoModel
 from ..schemas.partita import Partita, PartitaCreate
 
 router = APIRouter(
@@ -17,15 +17,53 @@ def read_partite(skip: int = 0, limit: int = 100, data: Optional[date] = None, d
     if data:
         query = query.filter(PartitaModel.data == data)
 
-    partite = query.order_by(PartitaModel.data.asc(), PartitaModel.orario.asc()).offset(skip).limit(limit).all()
-    return partite
+    partite_db = query.order_by(PartitaModel.data.asc(), PartitaModel.orario.asc()).offset(skip).limit(limit).all()
+
+    results_list = []
+    for p in partite_db:
+        # Fetch results for this match
+        risultati = db.query(RisultatoModel).filter(RisultatoModel.id_partita == p.id).all()
+
+        res_casa = next((r for r in risultati if r.casa), None)
+        res_ospite = next((r for r in risultati if not r.casa), None)
+
+        # A match is played if both results are marked as played or if we have both
+        giocata = res_casa.giocata if res_casa else False
+
+        results_list.append({
+            "id": p.id,
+            "data": p.data,
+            "orario": p.orario,
+            "squadraCasa": res_casa.squadra if res_casa else None,
+            "squadraOspite": res_ospite.squadra if res_ospite else None,
+            "risultatoCasa": res_casa.gol if res_casa else None,
+            "risultatoOspite": res_ospite.gol if res_ospite else None,
+            "giocata": giocata
+        })
+
+    return results_list
 
 @router.get("/{partita_id}", response_model=Partita)
 def read_partita(partita_id: int, db: Session = Depends(get_db)):
     db_partita = db.query(PartitaModel).filter(PartitaModel.id == partita_id).first()
     if db_partita is None:
         raise HTTPException(status_code=404, detail="Partita non trovata")
-    return db_partita
+
+    # Re-use the same mapping logic
+    risultati = db.query(RisultatoModel).filter(RisultatoModel.id_partita == db_partita.id).all()
+    res_casa = next((r for r in risultati if r.casa), None)
+    res_ospite = next((r for r in risultati if not r.casa), None)
+
+    return {
+        "id": db_partita.id,
+        "data": db_partita.data,
+        "orario": db_partita.orario,
+        "squadraCasa": res_casa.squadra if res_casa else None,
+        "squadraOspite": res_ospite.squadra if res_ospite else None,
+        "risultatoCasa": res_casa.gol if res_casa else None,
+        "risultatoOspite": res_ospite.gol if res_ospite else None,
+        "giocata": res_casa.giocata if res_casa else False
+    }
 
 @router.post("/", response_model=Partita, status_code=status.HTTP_201_CREATED)
 def create_partita(partita: PartitaCreate, db: Session = Depends(get_db)):

@@ -1,1 +1,43 @@
-<p>calendario-partite works!</p>
+<div class="calendar-container">
+  <h1 class="title">{{ translate('NAV.partite') }}</h1>
+
+  <div class="filters">
+    <div class="filter-group">
+      <label>Casa</label>
+      <select [(ngModel)]="filterCasaId">
+        <option [ngValue]="null">Tutte</option>
+        <option *ngFor="let s of squadre" [ngValue]="s.id">{{ s.nome }}</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label>Ospite</label>
+      <select [(ngModel)]="filterOspiteId">
+        <option [ngValue]="null">Tutte</option>
+        <option *ngFor="let s of squadre" [ngValue]="s.id">{{ s.nome }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="matches-list">
+    <div *ngFor="let p of filteredPartite" class="match-card" [id]="'match-' + p.id">
+      <div class="match-date">{{ p.data }} - {{ p.orario }}</div>
+
+      <div class="match-details">
+        <div class="team home">
+          <img [src]="p.squadraCasa.immagine || 'assets/imgs/default-team.png'" class="team-logo" alt="">
+          <span class="team-name">{{ p.squadraCasa.nome }}</span>
+        </div>
+
+        <div class="score">
+          <span *ngIf="p.giocata">{{ p.risultatoCasa }} - {{ p.risultatoOspite }}</span>
+          <span *ngIf="!p.giocata">-</span>
+        </div>
+
+        <div class="team away">
+          <span class="team-name">{{ p.squadraOspite.nome }}</span>
+          <img [src]="p.squadraOspite.immagine || 'assets/imgs/default-team.png'" class="team-logo" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
