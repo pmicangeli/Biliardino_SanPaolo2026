@@ -110,7 +110,7 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
     }
     @media (max-width: 600px) {
       .home-container {
-        background-image: url('../../../assets/immagini/home/sfondo_verticale.jpeg');
+        background-image: url('../../../assets/immagini/home/sfondo_verticale.jpg');
         background-position: center center;
       }
       .cta-group {
