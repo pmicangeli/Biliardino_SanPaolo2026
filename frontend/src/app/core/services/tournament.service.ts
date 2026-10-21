@@ -5,6 +5,7 @@ import { Partita } from '../models/partita.model';
 import { Squadra } from '../models/squadra.model';
 import { Risultato } from '../models/risultato.model';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 
 export interface PartitaCompleta {
   id: number;
@@ -21,7 +22,7 @@ export interface PartitaCompleta {
   providedIn: 'root'
 })
 export class TournamentService {
-  private apiUrl = 'http://localhost:8000'; // Regolare in base all'ambiente
+  private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -33,7 +34,7 @@ export class TournamentService {
     return this.http.get<PartitaCompleta[]>(`${this.apiUrl}/partite`);
   }
 
-  // Metodo per ottenere i risultati di tutte le partite
+  // Metodo per ottenere i risultati di tutte the partite
   getRisultati(): Observable<Risultato[]> {
     return this.http.get<Risultato[]>(`${this.apiUrl}/risultati`);
   }

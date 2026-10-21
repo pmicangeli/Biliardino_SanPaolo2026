@@ -1,0 +1,1 @@
+- [API Response Pattern](api-response-pattern.md) — Standard for enriched API responses
