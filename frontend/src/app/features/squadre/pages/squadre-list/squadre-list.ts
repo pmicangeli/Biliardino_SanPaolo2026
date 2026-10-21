@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+﻿import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SquadreService } from '../../squadre';
 import { Squadra } from '../../../../core/models/squadra.model';
+import { Giocatore } from '../../../../core/models/giocatore.model';
 import { TranslatePipe } from '../../../../shared/pipes/translate.pipe';
 import { BackgroundService } from '../../../../core/services/background.service';
 
@@ -16,6 +17,11 @@ export class SquadreList implements OnInit {
   squadre: Squadra[] = [];
   loading = true;
   error = '';
+
+  // Stato per il pannello dei giocatori
+  selectedSquadra: Squadra | null = null;
+  giocatori: Giocatore[] = [];
+  loadingGiocatori = false;
 
   constructor(
     private squadreService: SquadreService,
@@ -46,5 +52,29 @@ export class SquadreList implements OnInit {
         this.cdr.detectChanges();
       }
     });
+  }
+
+  openGiocatori(squadra: Squadra): void {
+    this.selectedSquadra = squadra;
+    this.giocatori = [];
+    this.loadingGiocatori = true;
+
+    this.squadreService.getGiocatoriBySquadra(squadra.nome).subscribe({
+      next: (data) => {
+        this.giocatori = data;
+        this.loadingGiocatori = false;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Errore caricamento giocatori', err);
+        this.loadingGiocatori = false;
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  closeGiocatori(): void {
+    this.selectedSquadra = null;
+    this.giocatori = [];
   }
 }

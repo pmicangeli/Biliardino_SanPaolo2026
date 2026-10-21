@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { Squadra } from '../../core/models/squadra.model';
+import { Giocatore } from '../../core/models/giocatore.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SquadreService {
   private apiUrl = `${environment.apiUrl}/squadre/`;
+  private giocatoriUrl = `${environment.apiUrl}/giocatori/`;
 
   constructor(private http: HttpClient) {}
 
@@ -20,6 +22,11 @@ export class SquadreService {
   // Recupera una singola squadra per ID
   getSquadra(id: number): Observable<Squadra> {
     return this.http.get<Squadra>(`${this.apiUrl}/${id}`);
+  }
+
+  // Recupera i giocatori di una squadra per nome squadra (usando il filtro dell'API)
+  getGiocatoriBySquadra(squadraNome: string): Observable<Giocatore[]> {
+    return this.http.get<Giocatore[]>(`${this.giocatoriUrl}?squadra_nome=${encodeURIComponent(squadraNome)}`);
   }
 
   // Crea una nuova squadra

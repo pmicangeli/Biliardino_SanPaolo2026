@@ -1,4 +1,4 @@
-<div class="page-background">
+﻿<div class="page-background">
   <div class="overlay"></div>
   <div class="container">
     <h1 class="page-title">{{ 'SQUADRE.title' | translate }}</h1>
@@ -7,7 +7,7 @@
     <div *ngIf="error" class="error">{{ error }}</div>
 
     <div *ngIf="!loading && !error" class="squadre-grid">
-      <div *ngFor="let squadra of squadre" class="squadra-card">
+      <div *ngFor="let squadra of squadre" class="squadra-card" (click)="openGiocatori(squadra)">
         <div class="squadra-image-container">
           <img
             *ngIf="squadra.immagine"
@@ -31,6 +31,35 @@
           <span class="color-box" [style.background-color]="squadra.colore_1" [title]="'Colore 1'"></span>
           <span class="color-box" [style.background-color]="squadra.colore_2" [title]="'Colore 2'"></span>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pannello sovrapposto Giocatori -->
+  <div class="players-overlay" *ngIf="selectedSquadra" (click)="closeGiocatori()">
+    <div class="players-panel" (click)="$event.stopPropagation()">
+      <div class="panel-header">
+        <h2>{{ selectedSquadra.nome }}</h2>
+        <button class="close-btn" (click)="closeGiocatori()">&times;</button>
+      </div>
+      
+      <div class="panel-content">
+        <div *ngIf="loadingGiocatori" class="loading">Caricamento giocatori...</div>
+        <div *ngIf="!loadingGiocatori && giocatori.length === 0" class="no-data">
+          Nessun giocatore trovato per questa squadra.
+        </div>
+        <ul *ngIf="!loadingGiocatori && giocatori.length > 0" class="players-list">
+          <li *ngFor="let giocatore of giocatori" class="player-item">
+            <span class="player-name">{{ giocatore.nome }} {{ giocatore.cognome }}</span>
+            <span class="player-meta" *ngIf="giocatore.nazionalita">
+              <img [src]="'https://flagcdn.com/w20/' + giocatore.nazionalita.toLowerCase() + '.png'" 
+                   class="flag-icon" 
+                   [alt]="giocatore.nazionalita"
+                   onerror="this.style.display='none'">
+              {{ giocatore.nazionalita }}
+            </span>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
