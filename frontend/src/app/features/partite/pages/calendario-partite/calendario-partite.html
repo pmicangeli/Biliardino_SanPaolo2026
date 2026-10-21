@@ -17,6 +17,9 @@
       </div>
 
       <div class="matches-list">
+        <div *ngIf="filteredPartite.length === 0" class="no-matches">
+          {{ translate('PARTITE.no_matches') }}
+        </div>
         <div *ngFor="let p of filteredPartite" class="match-card" [id]="'match-' + p.id">
           <div class="match-date">{{ p.data | date:'dd-MM-yyyy' }}</div>
 

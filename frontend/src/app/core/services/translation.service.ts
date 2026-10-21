@@ -27,6 +27,9 @@ const TRANSLATIONS: any = {
     FILTERS: {
       squadra: 'Filtra per squadra',
       tutte: 'Tutte le squadre'
+    },
+    PARTITE: {
+      no_matches: 'Nessuna partita trovata per i criteri selezionati.'
     }
   },
   en: {
@@ -34,6 +37,7 @@ const TRANSLATIONS: any = {
       squadre: 'Teams',
       giocatori: 'Players',
       partite: 'Matches',
+      classifica: 'Standings',
       risultati: 'Results'
     },
     HOME: {
@@ -52,6 +56,9 @@ const TRANSLATIONS: any = {
     FILTERS: {
       squadra: 'Filter by team',
       tutte: 'All teams'
+    },
+    PARTITE: {
+      no_matches: 'No matches found for the selected criteria.'
     }
   },
   es: {
@@ -59,6 +66,7 @@ const TRANSLATIONS: any = {
       squadre: 'Equipos',
       giocatori: 'Jugadores',
       partite: 'Partidos',
+      classifica: 'Clasificación',
       risultati: 'Resultados'
     },
     HOME: {
@@ -77,6 +85,9 @@ const TRANSLATIONS: any = {
     FILTERS: {
       squadra: 'Filtrar por equipo',
       tutte: 'Todos los equipos'
+    },
+    PARTITE: {
+      no_matches: 'No se encontraron partidos para los criterios seleccionados.'
     }
   }
 };
